@@ -9,7 +9,7 @@ namespace DataSharingAndSynchronization
 {
     class ReaderWriterLock
     {
-		static ReaderWriterLockSlim padlock = new ReaderWriterLockSlim();
+		static ReaderWriterLockSlim padlock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
 		static Random random = new Random();	
 		public static void main ()
 		{
@@ -19,11 +19,18 @@ namespace DataSharingAndSynchronization
             {
                 tasks.Add(Task.Factory.StartNew(() =>
 				{
-					padlock.EnterReadLock();
-					Console.WriteLine($"Entered read lock x = {x}");
+					/*padlock.EnterReadLock();*/
+					padlock.EnterUpgradeableReadLock();
+                    if (i%2 == 0)
+                    {
+						padlock.EnterWriteLock();
+						x = 123; 
+						padlock.ExitWriteLock();	
+                    }
+                    Console.WriteLine($"Entered read lock x = {x}");
 					Thread.Sleep(5000);
 
-					padlock.ExitReadLock();
+					padlock.ExitUpgradeableReadLock ();	
 
                     Console.WriteLine($"Exited read lock, x = {x}.");
                 }));

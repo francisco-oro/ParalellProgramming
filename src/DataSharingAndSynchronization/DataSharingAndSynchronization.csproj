@@ -54,6 +54,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <Compile Include="ReaderWriterLock.cs" />
+    <None Include="readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
