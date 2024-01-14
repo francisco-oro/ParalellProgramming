@@ -11,6 +11,10 @@ namespace Domain
         private List<Booking> bookingList = new();
         public IEnumerable<Booking> BookingList => bookingList;
         public int RemainingNumberOfSeats { get; set; }
+        public Guid Id { get; }
+
+        [Obsolete("Needed by EF")]
+        Flight(){}
 
         public Flight(int seatCapacity)
         {
